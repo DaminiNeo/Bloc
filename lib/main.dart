@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'You have pushed the button this many timesccndsdmd fs:',
+              'You have pushed the button this many timesccndsdmdcdf fs:',
             ),
             BlocBuilder<DemoBloc, DemoState>(
               builder: (context, state) {
