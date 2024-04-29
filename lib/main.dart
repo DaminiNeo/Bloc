@@ -1,3 +1,4 @@
+import 'package:demo_bloc/bloc/margarita_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,65 +12,60 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => DemoBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => DemoBloc(),
+        ),
+        BlocProvider(
+          create: (context) => MargaritaBloc(),
+        ),
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        home: const Margarita(),
       ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class Margarita extends StatelessWidget {
+  const Margarita({super.key});
 
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    context.read<MargaritaBloc>().add(getDrinksData());
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            BlocBuilder<DemoBloc, DemoState>(
-              builder: (context, state) {
-                if (state is IncrementState) {
-                  return Text(
-                    '${state.counter}',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  );
-                }
-                return const SizedBox.shrink();
-              },
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.read<DemoBloc>().add(Increment());
+      body: SafeArea(child: BlocBuilder<MargaritaBloc, MargaritaState>(
+        builder: (context, state) {
+          if (state is LoadingState) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: Colors.amber,
+              ),
+            );
+          }
+          if (state is MargaritaDataReceived) {
+            return Column(children: [
+              ListView.builder(
+                itemCount: state.result.length,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  return Text('${state.result[index]['strDrink']}');
+                },
+              ),
+            ]);
+          }
+
+          return Column(
+            children: [Text('dnsjnd')],
+          );
         },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      )),
     );
   }
 }
