@@ -1,4 +1,5 @@
 import 'package:demo_bloc/bloc/margarita_bloc.dart';
+import 'package:demo_bloc/screens/isolates.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,7 +39,8 @@ class Margarita extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<MargaritaBloc>().add(getDrinksData());
+    // context.read<MargaritaBloc>().add(getDrinksData());
+    DemoIsolate1().createIsolate1();
     return Scaffold(
       body: SafeArea(child: BlocBuilder<MargaritaBloc, MargaritaState>(
         builder: (context, state) {

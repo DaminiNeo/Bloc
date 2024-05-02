@@ -10,10 +10,10 @@ final apiCall = ApiCall();
 class MargaritaBloc extends Bloc<MargaritaEvent, MargaritaState> {
   MargaritaBloc() : super(MargaritaInitial()) {
     on<getDrinksData>((event, emit) async {
-      final List<dynamic> result = await apiCall.getMargarita();
-      print('data => $result');
-      // TODO: implement event handler
-      emit(MargaritaDataReceived(result: result));
+      // final List<dynamic> result = await apiCall.getMargarita();
+      // print('data => $result');
+      // // TODO: implement event handler
+      // emit(MargaritaDataReceived(result: result));
     });
   }
 }
