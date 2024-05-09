@@ -1,13 +1,58 @@
 import 'package:demo_bloc/bloc/margarita_bloc.dart';
-import 'package:demo_bloc/screens/inheritedWidget/inherited_widget.dart';
+import 'package:demo_bloc/screens/counter.dart';
 import 'package:demo_bloc/screens/isolates.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test/test.dart';
 import 'dart:async';
 import 'bloc/demo_bloc.dart';
 
 void main() {
   runApp(const MyApp());
+  group('test for increment, decrement', () {
+    test('value should be incremented', () {
+      final counter = Counter();
+
+      counter.increment();
+
+      expect(counter.value, 1);
+    });
+    test('value should be decremented', () {
+      final counter = Counter();
+
+      counter.increment();
+
+      expect(counter.value, 1);
+    });
+  });
+  List originalList = [24, 53, 39100, 2000, 311, 654, 1, 0];
+
+  for (var i = 0; i < originalList.length; i++) {
+    for (var j = i + 1; j < originalList.length; j++) {
+      if (originalList[i] < originalList[j]) {
+        print('i=> ${originalList[i]} amd j ${originalList[j]}');
+      } else {
+        int tempVal = originalList[j];
+        originalList[j] = originalList[i];
+        originalList[i] = tempVal;
+
+        print('baseList => $originalList');
+      }
+    }
+  }
+  String name = 'today is a wednesday';
+  List getIndexes = [];
+  List getCount = [];
+  var i;
+  for (var i = 0; i < name.length; i++) {
+    if (name[i].contains('a')) {
+      getIndexes.add(i);
+    }
+  }
+  for (var i = getIndexes.first; i <= getIndexes[1]; i++) {
+    getCount.add(name[i]);
+  }
+  int count = 0;
 }
 
 class MyApp extends StatelessWidget {
@@ -44,18 +89,6 @@ class Debouncer {
       _timer!.cancel();
     }
     _timer = Timer(Duration(milliseconds: milliseconds), action);
-  }
-}
-
-class DemoWidget extends StatelessWidget {
-  const DemoWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final _debouncer = Debouncer(milliseconds: 500);
-
-    String name = UserDataInheritedWidget.of(context)!.userName;
-    return Text(name);
   }
 }
 
